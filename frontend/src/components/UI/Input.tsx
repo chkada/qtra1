@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useId } from 'react';
 import { motion } from 'framer-motion';
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -51,8 +51,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((
   },
   ref
 ) => {
-  // Generate a unique ID if not provided
-  const inputId = id || `input-${Math.random().toString(36).substring(2, 9)}`;
+  // Generate a unique ID using React's useId hook to prevent hydration issues
+  const generatedId = useId();
+  const inputId = id || generatedId;
   
   // Base classes for the input
   const baseClasses = 'rounded-md border transition-colors focus:outline-none focus:ring-2 focus:ring-aguirre-sky focus:ring-offset-2';

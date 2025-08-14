@@ -1,0 +1,92 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Teacher {
+  id                    String   @id @default(cuid())
+  userId                String   @unique
+  displayName           String
+  photoUrl              String?
+  location              String?
+  country               String?  @default("Algeria")
+  specialties           String[]
+  languages             String[]
+  hourlyRateCents       Int
+  modeOnline            Boolean  @default(true)
+  modeInPerson          Boolean  @default(false)
+  introText             String?
+  introVideoUrl         String?
+  subscriptionActive    Boolean  @default(false)
+  trialEndsAt           DateTime?
+  subscriptionExpiresAt DateTime?
+  isVerified            Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  bookings              Booking[]
+}
+
+model Booking {
+  id               String        @id @default(cuid())
+  teacherId        String
+  teacher          Teacher       @relation(fields: [teacherId], references: [id])
+  studentName      String
+  studentPhone     String
+  studentEmail     String?
+  requestedTimeUtc DateTime
+  durationMinutes  Int           @default(60)
+  status           BookingStatus @default(PENDING)
+  idempotencyKey   String?       @unique
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  expiresAt        DateTime
+  proxySession     ProxySession? @relation(fields: [id], references: [bookingId])
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  EXPIRED
+  REJECTED
+  CANCELLED
+}
+
+model ProxySession {
+  id              String   @id @default(cuid())
+  bookingId       String   @unique
+  proxyIdentifier String
+  status          String   @default("active")
+  createdAt       DateTime @default(now())
+  expiresAt       DateTime
+  messages        Message[]
+  booking         Booking  @relation(fields: [bookingId], references: [id])
+}
+
+model Message {
+  id             String   @id @default(cuid())
+  proxySessionId String
+  proxySession   ProxySession @relation(fields: [proxySessionId], references: [id])
+  senderType     String
+  senderId       String?
+  body           String
+  createdAt      DateTime @default(now())
+  delivered      Boolean  @default(false)
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  bookingId String?
+  channel   String
+  to        String?
+  body      String
+  payload   Json?
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+  sentAt    DateTime?
+}

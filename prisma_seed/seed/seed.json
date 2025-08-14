@@ -1,0 +1,647 @@
+{
+  "teachers": [
+    {
+      "id": "teacher_1",
+      "userId": "u_1",
+      "displayName": "Fatima Ben",
+      "photoUrl": "/assets/teacher_1.jpg",
+      "location": "Constantine",
+      "country": "Algeria",
+      "specialties": [
+        "Conversational"
+      ],
+      "languages": [
+        "en"
+      ],
+      "hourlyRateCents": 15000,
+      "modeOnline": true,
+      "modeInPerson": true,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": true,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": false,
+      "createdAt": "2025-08-11T17:11:03.014755Z"
+    },
+    {
+      "id": "teacher_2",
+      "userId": "u_2",
+      "displayName": "Yacine Ait",
+      "photoUrl": "/assets/teacher_2.jpg",
+      "location": "Constantine",
+      "country": "Algeria",
+      "specialties": [
+        "Conversational"
+      ],
+      "languages": [
+        "en",
+        "ar"
+      ],
+      "hourlyRateCents": 10000,
+      "modeOnline": true,
+      "modeInPerson": true,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": true,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": false,
+      "createdAt": "2025-08-11T17:11:03.014787Z"
+    },
+    {
+      "id": "teacher_3",
+      "userId": "u_3",
+      "displayName": "Sara M.",
+      "photoUrl": "/assets/teacher_3.jpg",
+      "location": "S\u00e9tif",
+      "country": "Algeria",
+      "specialties": [
+        "TOEFL"
+      ],
+      "languages": [
+        "fr"
+      ],
+      "hourlyRateCents": 25000,
+      "modeOnline": true,
+      "modeInPerson": false,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": true,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": true,
+      "createdAt": "2025-08-11T17:11:03.014807Z"
+    },
+    {
+      "id": "teacher_4",
+      "userId": "u_4",
+      "displayName": "Omar K.",
+      "photoUrl": "/assets/teacher_4.jpg",
+      "location": "Constantine",
+      "country": "Algeria",
+      "specialties": [
+        "Conversational"
+      ],
+      "languages": [
+        "ar",
+        "fr",
+        "en"
+      ],
+      "hourlyRateCents": 15000,
+      "modeOnline": true,
+      "modeInPerson": false,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": true,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": false,
+      "createdAt": "2025-08-11T17:11:03.014832Z"
+    },
+    {
+      "id": "teacher_5",
+      "userId": "u_5",
+      "displayName": "Amine R.",
+      "photoUrl": "/assets/teacher_5.jpg",
+      "location": "Oran",
+      "country": "Algeria",
+      "specialties": [
+        "Business English"
+      ],
+      "languages": [
+        "ar",
+        "fr"
+      ],
+      "hourlyRateCents": 25000,
+      "modeOnline": true,
+      "modeInPerson": true,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": true,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": false,
+      "createdAt": "2025-08-11T17:11:03.014851Z"
+    },
+    {
+      "id": "teacher_6",
+      "userId": "u_6",
+      "displayName": "Lina H.",
+      "photoUrl": "/assets/teacher_6.jpg",
+      "location": "S\u00e9tif",
+      "country": "Algeria",
+      "specialties": [
+        "Business English"
+      ],
+      "languages": [
+        "ar"
+      ],
+      "hourlyRateCents": 10000,
+      "modeOnline": true,
+      "modeInPerson": true,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": true,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": true,
+      "createdAt": "2025-08-11T17:11:03.014867Z"
+    },
+    {
+      "id": "teacher_7",
+      "userId": "u_7",
+      "displayName": "Nour B.",
+      "photoUrl": "/assets/teacher_7.jpg",
+      "location": "Constantine",
+      "country": "Algeria",
+      "specialties": [
+        "TOEFL"
+      ],
+      "languages": [
+        "ar"
+      ],
+      "hourlyRateCents": 10000,
+      "modeOnline": true,
+      "modeInPerson": false,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": true,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": false,
+      "createdAt": "2025-08-11T17:11:03.014883Z"
+    },
+    {
+      "id": "teacher_8",
+      "userId": "u_8",
+      "displayName": "Rachid M.",
+      "photoUrl": "/assets/teacher_8.jpg",
+      "location": "Oran",
+      "country": "Algeria",
+      "specialties": [
+        "Conversational",
+        "Business English"
+      ],
+      "languages": [
+        "ar"
+      ],
+      "hourlyRateCents": 10000,
+      "modeOnline": true,
+      "modeInPerson": false,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": true,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": false,
+      "createdAt": "2025-08-11T17:11:03.014908Z"
+    },
+    {
+      "id": "teacher_9",
+      "userId": "u_9",
+      "displayName": "Khadija S.",
+      "photoUrl": "/assets/teacher_9.jpg",
+      "location": "Constantine",
+      "country": "Algeria",
+      "specialties": [
+        "TOEFL"
+      ],
+      "languages": [
+        "en",
+        "ar",
+        "fr"
+      ],
+      "hourlyRateCents": 20000,
+      "modeOnline": true,
+      "modeInPerson": true,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": true,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": true,
+      "createdAt": "2025-08-11T17:11:03.014926Z"
+    },
+    {
+      "id": "teacher_10",
+      "userId": "u_10",
+      "displayName": "Meriem D.",
+      "photoUrl": "/assets/teacher_10.jpg",
+      "location": "Oran",
+      "country": "Algeria",
+      "specialties": [
+        "Conversational"
+      ],
+      "languages": [
+        "fr",
+        "en",
+        "ar"
+      ],
+      "hourlyRateCents": 15000,
+      "modeOnline": true,
+      "modeInPerson": true,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": true,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": false,
+      "createdAt": "2025-08-11T17:11:03.014944Z"
+    },
+    {
+      "id": "teacher_11",
+      "userId": "u_11",
+      "displayName": "Sabrina T.",
+      "photoUrl": "/assets/teacher_11.jpg",
+      "location": "Blida",
+      "country": "Algeria",
+      "specialties": [
+        "Conversational",
+        "Business English"
+      ],
+      "languages": [
+        "en",
+        "fr",
+        "ar"
+      ],
+      "hourlyRateCents": 10000,
+      "modeOnline": true,
+      "modeInPerson": true,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": true,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": false,
+      "createdAt": "2025-08-11T17:11:03.014960Z"
+    },
+    {
+      "id": "teacher_12",
+      "userId": "u_12",
+      "displayName": "Youssef Z.",
+      "photoUrl": "/assets/teacher_12.jpg",
+      "location": "Algiers",
+      "country": "Algeria",
+      "specialties": [
+        "IELTS"
+      ],
+      "languages": [
+        "fr",
+        "ar",
+        "en"
+      ],
+      "hourlyRateCents": 20000,
+      "modeOnline": true,
+      "modeInPerson": false,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": true,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": true,
+      "createdAt": "2025-08-11T17:11:03.014976Z"
+    },
+    {
+      "id": "teacher_13",
+      "userId": "u_13",
+      "displayName": "Ali N.",
+      "photoUrl": "/assets/teacher_13.jpg",
+      "location": "Annaba",
+      "country": "Algeria",
+      "specialties": [
+        "IELTS"
+      ],
+      "languages": [
+        "fr",
+        "ar",
+        "en"
+      ],
+      "hourlyRateCents": 10000,
+      "modeOnline": true,
+      "modeInPerson": false,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": false,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": false,
+      "createdAt": "2025-08-11T17:11:03.014992Z"
+    },
+    {
+      "id": "teacher_14",
+      "userId": "u_14",
+      "displayName": "Hind F.",
+      "photoUrl": "/assets/teacher_14.jpg",
+      "location": "S\u00e9tif",
+      "country": "Algeria",
+      "specialties": [
+        "TOEFL"
+      ],
+      "languages": [
+        "ar"
+      ],
+      "hourlyRateCents": 20000,
+      "modeOnline": true,
+      "modeInPerson": false,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": false,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": false,
+      "createdAt": "2025-08-11T17:11:03.015006Z"
+    },
+    {
+      "id": "teacher_15",
+      "userId": "u_15",
+      "displayName": "Samir G.",
+      "photoUrl": "/assets/teacher_15.jpg",
+      "location": "Oran",
+      "country": "Algeria",
+      "specialties": [
+        "Conversational"
+      ],
+      "languages": [
+        "en"
+      ],
+      "hourlyRateCents": 15000,
+      "modeOnline": true,
+      "modeInPerson": true,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": false,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": true,
+      "createdAt": "2025-08-11T17:11:03.015019Z"
+    },
+    {
+      "id": "teacher_16",
+      "userId": "u_16",
+      "displayName": "Mounia L.",
+      "photoUrl": "/assets/teacher_16.jpg",
+      "location": "Blida",
+      "country": "Algeria",
+      "specialties": [
+        "Pronunciation"
+      ],
+      "languages": [
+        "fr",
+        "en",
+        "ar"
+      ],
+      "hourlyRateCents": 25000,
+      "modeOnline": true,
+      "modeInPerson": true,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": false,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": false,
+      "createdAt": "2025-08-11T17:11:03.015034Z"
+    },
+    {
+      "id": "teacher_17",
+      "userId": "u_17",
+      "displayName": "Nadia E.",
+      "photoUrl": "/assets/teacher_17.jpg",
+      "location": "Constantine",
+      "country": "Algeria",
+      "specialties": [
+        "Conversational",
+        "Business English"
+      ],
+      "languages": [
+        "en"
+      ],
+      "hourlyRateCents": 15000,
+      "modeOnline": true,
+      "modeInPerson": true,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": false,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": false,
+      "createdAt": "2025-08-11T17:11:03.015048Z"
+    },
+    {
+      "id": "teacher_18",
+      "userId": "u_18",
+      "displayName": "Karim J.",
+      "photoUrl": "/assets/teacher_18.jpg",
+      "location": "Algiers",
+      "country": "Algeria",
+      "specialties": [
+        "Pronunciation"
+      ],
+      "languages": [
+        "fr",
+        "ar"
+      ],
+      "hourlyRateCents": 25000,
+      "modeOnline": true,
+      "modeInPerson": false,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": false,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": true,
+      "createdAt": "2025-08-11T17:11:03.015062Z"
+    },
+    {
+      "id": "teacher_19",
+      "userId": "u_19",
+      "displayName": "Zineb A.",
+      "photoUrl": "/assets/teacher_19.jpg",
+      "location": "Annaba",
+      "country": "Algeria",
+      "specialties": [
+        "IELTS"
+      ],
+      "languages": [
+        "fr"
+      ],
+      "hourlyRateCents": 10000,
+      "modeOnline": true,
+      "modeInPerson": false,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": false,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": false,
+      "createdAt": "2025-08-11T17:11:03.015076Z"
+    },
+    {
+      "id": "teacher_20",
+      "userId": "u_20",
+      "displayName": "Rania O.",
+      "photoUrl": "/assets/teacher_20.jpg",
+      "location": "Constantine",
+      "country": "Algeria",
+      "specialties": [
+        "IELTS"
+      ],
+      "languages": [
+        "en",
+        "ar"
+      ],
+      "hourlyRateCents": 10000,
+      "modeOnline": true,
+      "modeInPerson": false,
+      "introText": "Experienced English teacher.",
+      "introVideoUrl": null,
+      "subscriptionActive": false,
+      "trialEndsAt": null,
+      "subscriptionExpiresAt": null,
+      "isVerified": false,
+      "createdAt": "2025-08-11T17:11:03.015092Z"
+    }
+  ],
+  "bookings": [
+    {
+      "id": "booking_1",
+      "teacherId": "teacher_9",
+      "studentName": "Nadia",
+      "studentPhone": "+213827506038",
+      "studentEmail": null,
+      "requestedTimeUtc": "2025-08-13T01:11:03.015178Z",
+      "durationMinutes": 60,
+      "status": "PENDING",
+      "idempotencyKey": null,
+      "createdAt": "2025-08-11T17:11:03.015178Z",
+      "updatedAt": "2025-08-11T17:11:03.015178Z",
+      "expiresAt": "2025-08-14T17:11:03.015178Z"
+    },
+    {
+      "id": "booking_2",
+      "teacherId": "teacher_1",
+      "studentName": "Sofia",
+      "studentPhone": "+213596708161",
+      "studentEmail": null,
+      "requestedTimeUtc": "2025-08-18T20:11:03.015178Z",
+      "durationMinutes": 60,
+      "status": "PENDING",
+      "idempotencyKey": null,
+      "createdAt": "2025-08-11T17:11:03.015178Z",
+      "updatedAt": "2025-08-11T17:11:03.015178Z",
+      "expiresAt": "2025-08-14T17:11:03.015178Z"
+    },
+    {
+      "id": "booking_3",
+      "teacherId": "teacher_11",
+      "studentName": "Rima",
+      "studentPhone": "+213259597676",
+      "studentEmail": null,
+      "requestedTimeUtc": "2025-08-23T21:11:03.015178Z",
+      "durationMinutes": 60,
+      "status": "PENDING",
+      "idempotencyKey": null,
+      "createdAt": "2025-08-11T17:11:03.015178Z",
+      "updatedAt": "2025-08-11T17:11:03.015178Z",
+      "expiresAt": "2025-08-14T17:11:03.015178Z"
+    },
+    {
+      "id": "booking_4",
+      "teacherId": "teacher_8",
+      "studentName": "Sofia",
+      "studentPhone": "+213768210636",
+      "studentEmail": null,
+      "requestedTimeUtc": "2025-08-25T03:11:03.015178Z",
+      "durationMinutes": 60,
+      "status": "PENDING",
+      "idempotencyKey": null,
+      "createdAt": "2025-08-11T17:11:03.015178Z",
+      "updatedAt": "2025-08-11T17:11:03.015178Z",
+      "expiresAt": "2025-08-14T17:11:03.015178Z"
+    },
+    {
+      "id": "booking_5",
+      "teacherId": "teacher_2",
+      "studentName": "Sofia",
+      "studentPhone": "+213075733142",
+      "studentEmail": null,
+      "requestedTimeUtc": "2025-08-25T23:11:03.015178Z",
+      "durationMinutes": 60,
+      "status": "PENDING",
+      "idempotencyKey": null,
+      "createdAt": "2025-08-11T17:11:03.015178Z",
+      "updatedAt": "2025-08-11T17:11:03.015178Z",
+      "expiresAt": "2025-08-14T17:11:03.015178Z"
+    },
+    {
+      "id": "booking_6",
+      "teacherId": "teacher_7",
+      "studentName": "Amel",
+      "studentPhone": "+213304857989",
+      "studentEmail": null,
+      "requestedTimeUtc": "2025-08-13T17:11:03.015178Z",
+      "durationMinutes": 60,
+      "status": "PENDING",
+      "idempotencyKey": null,
+      "createdAt": "2025-08-11T17:11:03.015178Z",
+      "updatedAt": "2025-08-11T17:11:03.015178Z",
+      "expiresAt": "2025-08-14T17:11:03.015178Z"
+    },
+    {
+      "id": "booking_7",
+      "teacherId": "teacher_4",
+      "studentName": "Walid",
+      "studentPhone": "+213899310233",
+      "studentEmail": null,
+      "requestedTimeUtc": "2025-08-15T13:11:03.015178Z",
+      "durationMinutes": 60,
+      "status": "PENDING",
+      "idempotencyKey": null,
+      "createdAt": "2025-08-11T17:11:03.015178Z",
+      "updatedAt": "2025-08-11T17:11:03.015178Z",
+      "expiresAt": "2025-08-14T17:11:03.015178Z"
+    },
+    {
+      "id": "booking_8",
+      "teacherId": "teacher_6",
+      "studentName": "Walid",
+      "studentPhone": "+213776848966",
+      "studentEmail": null,
+      "requestedTimeUtc": "2025-08-13T08:11:03.015178Z",
+      "durationMinutes": 60,
+      "status": "PENDING",
+      "idempotencyKey": null,
+      "createdAt": "2025-08-11T17:11:03.015178Z",
+      "updatedAt": "2025-08-11T17:11:03.015178Z",
+      "expiresAt": "2025-08-14T17:11:03.015178Z"
+    },
+    {
+      "id": "booking_9",
+      "teacherId": "teacher_6",
+      "studentName": "Rima",
+      "studentPhone": "+213468218653",
+      "studentEmail": null,
+      "requestedTimeUtc": "2025-08-13T02:11:03.015178Z",
+      "durationMinutes": 60,
+      "status": "PENDING",
+      "idempotencyKey": null,
+      "createdAt": "2025-08-11T17:11:03.015178Z",
+      "updatedAt": "2025-08-11T17:11:03.015178Z",
+      "expiresAt": "2025-08-14T17:11:03.015178Z"
+    },
+    {
+      "id": "booking_10",
+      "teacherId": "teacher_3",
+      "studentName": "Ahmed",
+      "studentPhone": "+213694253619",
+      "studentEmail": null,
+      "requestedTimeUtc": "2025-08-16T06:11:03.015178Z",
+      "durationMinutes": 60,
+      "status": "PENDING",
+      "idempotencyKey": null,
+      "createdAt": "2025-08-11T17:11:03.015178Z",
+      "updatedAt": "2025-08-11T17:11:03.015178Z",
+      "expiresAt": "2025-08-14T17:11:03.015178Z"
+    }
+  ]
+}

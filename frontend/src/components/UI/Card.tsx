@@ -97,8 +97,8 @@ export const Card = ({
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-warm-beige text-aguirre-sky text-xl font-bold">
-                  {displayName.charAt(0)}
-                </div>
+                   {displayName?.charAt(0) || '?'}
+                 </div>
               )}
             </div>
             <div>
@@ -112,7 +112,7 @@ export const Card = ({
               <div className="mb-3">
                 <h4 className="text-sm font-medium text-gray-700 mb-1">Specialties</h4>
                 <div className="flex flex-wrap gap-1">
-                  {specialties.map((specialty, index) => (
+                  {(specialties || []).map((specialty, index) => (
                     <span
                       key={index}
                       className="inline-block bg-golden-glow/20 text-gray-800 rounded-full px-2 py-0.5 text-xs"
@@ -126,7 +126,7 @@ export const Card = ({
               <div className="mb-4">
                 <h4 className="text-sm font-medium text-gray-700 mb-1">Languages</h4>
                 <div className="flex flex-wrap gap-1">
-                  {languages.map((language, index) => (
+                  {(languages || []).map((language, index) => (
                     <span
                       key={index}
                       className="inline-block bg-aguirre-sky/10 text-aguirre-sky rounded-full px-2 py-0.5 text-xs"

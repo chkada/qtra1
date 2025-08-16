@@ -10,7 +10,15 @@ jest.mock('next/link', () => {
 });
 
 jest.mock('next/image', () => {
-  return ({ src, alt, className }: { src: string; alt: string; className: string }) => {
+  return ({
+    src,
+    alt,
+    className,
+  }: {
+    src: string;
+    alt: string;
+    className: string;
+  }) => {
     return <img src={src} alt={alt} className={className} />;
   };
 });
@@ -28,7 +36,7 @@ const mockTeacher = {
 describe('Card', () => {
   it('renders teacher information correctly', () => {
     render(<Card {...mockTeacher} />);
-    
+
     expect(screen.getByText('John Doe')).toBeInTheDocument();
     expect(screen.getByText('New York, USA')).toBeInTheDocument();
     expect(screen.getByText('Math')).toBeInTheDocument();
@@ -55,11 +63,11 @@ describe('Card', () => {
 
   it('renders compact variant without specialties and languages', () => {
     render(<Card {...mockTeacher} variant="compact" />);
-    
+
     expect(screen.getByText('John Doe')).toBeInTheDocument();
     expect(screen.getByText('New York, USA')).toBeInTheDocument();
     expect(screen.getByText('$25')).toBeInTheDocument();
-    
+
     // These should not be in the document in compact mode
     expect(screen.queryByText('Specialties')).not.toBeInTheDocument();
     expect(screen.queryByText('Languages')).not.toBeInTheDocument();
@@ -72,7 +80,9 @@ describe('Card', () => {
   });
 
   it('formats hourly rate correctly', () => {
-    const { rerender } = render(<Card {...mockTeacher} hourlyRateCents={2500} />);
+    const { rerender } = render(
+      <Card {...mockTeacher} hourlyRateCents={2500} />
+    );
     expect(screen.getByText('$25')).toBeInTheDocument();
 
     rerender(<Card {...mockTeacher} hourlyRateCents={3050} />);

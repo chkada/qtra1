@@ -5,7 +5,7 @@ const nextConfig = {
     // Support for internationalization with English and Arabic
     locales: ['en', 'ar'],
     defaultLocale: 'en',
-    localeDetection: true,
+    localeDetection: false,
   },
   images: {
     domains: ['localhost'],

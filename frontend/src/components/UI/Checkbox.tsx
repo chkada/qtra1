@@ -125,7 +125,9 @@ export const Checkbox = ({
         )}
       </div>
       {(helperText || error) && (
-        <p className={`mt-1 text-sm ${error ? 'text-sunrise-orange' : 'text-gray-500'} ml-7`}>
+        <p
+          className={`mt-1 text-sm ${error ? 'text-sunrise-orange' : 'text-gray-500'} ml-7`}
+        >
           {error || helperText}
         </p>
       )}

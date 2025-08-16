@@ -80,12 +80,7 @@ export const Avatar = ({
     >
       <div className="relative w-full h-full rounded-full overflow-hidden bg-warm-beige">
         {src ? (
-          <Image
-            src={src}
-            alt={alt}
-            fill
-            className="object-cover"
-          />
+          <Image src={src} alt={alt} fill className="object-cover" />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-warm-beige text-aguirre-sky font-bold">
             {alt.charAt(0).toUpperCase()}

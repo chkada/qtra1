@@ -11,15 +11,23 @@
   },
   "dependencies": {
     "@prisma/client": "^5.0.0",
+    "@supabase/supabase-js": "^2.39.3",
     "express": "^4.18.2",
     "body-parser": "^1.20.2",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "date-fns": "^2.30.0",
+    "dotenv": "^16.3.1",
+    "jsonwebtoken": "^9.0.2",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "prisma": "^5.0.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2",
     "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/uuid": "^9.0.7",
+    "@types/cors": "^2.8.17",
     "jest": "^29.5.0",
     "@types/jest": "^29.5.2",
     "supertest": "^6.3.3",

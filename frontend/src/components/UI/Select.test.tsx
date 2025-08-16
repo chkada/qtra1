@@ -56,13 +56,13 @@ describe('Select', () => {
 
   it('opens dropdown when clicked', () => {
     render(<Select options={mockOptions} />);
-    
+
     // Dropdown should be closed initially
     expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
-    
+
     // Click to open dropdown
     fireEvent.click(screen.getByRole('combobox'));
-    
+
     // Dropdown should be open
     expect(screen.getByRole('listbox')).toBeInTheDocument();
     expect(screen.getByText('Option 1')).toBeInTheDocument();
@@ -73,13 +73,13 @@ describe('Select', () => {
   it('selects an option when clicked', () => {
     const handleChange = jest.fn();
     render(<Select options={mockOptions} onChange={handleChange} />);
-    
+
     // Open dropdown
     fireEvent.click(screen.getByRole('combobox'));
-    
+
     // Click an option
     fireEvent.click(screen.getByText('Option 2'));
-    
+
     // Dropdown should close and selection should update
     expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
     expect(screen.getByText('Option 2')).toBeInTheDocument();
@@ -88,10 +88,10 @@ describe('Select', () => {
 
   it('does not open dropdown when disabled', () => {
     render(<Select options={mockOptions} disabled />);
-    
+
     // Click to try to open dropdown
     fireEvent.click(screen.getByRole('combobox'));
-    
+
     // Dropdown should still be closed
     expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
   });
@@ -103,14 +103,15 @@ describe('Select', () => {
 
   it('applies fullWidth class when fullWidth is true', () => {
     render(<Select options={mockOptions} fullWidth />);
-    const selectContainer = screen.getByRole('combobox').parentElement?.parentElement;
+    const selectContainer =
+      screen.getByRole('combobox').parentElement?.parentElement;
     expect(selectContainer).toHaveClass('w-full');
   });
 
   it('applies size classes correctly', () => {
     const { rerender } = render(<Select options={mockOptions} size="sm" />);
     expect(screen.getByRole('combobox')).toHaveClass('h-8');
-    
+
     rerender(<Select options={mockOptions} size="lg" />);
     expect(screen.getByRole('combobox')).toHaveClass('h-12');
   });

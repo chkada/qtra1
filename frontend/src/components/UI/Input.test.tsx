@@ -20,27 +20,29 @@ describe('Input', () => {
 
   it('renders helper text when provided', () => {
     render(
-      <Input 
-        label="Password" 
-        helperText="Must be at least 8 characters" 
-        placeholder="Enter password" 
+      <Input
+        label="Password"
+        helperText="Must be at least 8 characters"
+        placeholder="Enter password"
       />
     );
-    expect(screen.getByText('Must be at least 8 characters')).toBeInTheDocument();
+    expect(
+      screen.getByText('Must be at least 8 characters')
+    ).toBeInTheDocument();
   });
 
   it('renders error state correctly', () => {
     render(
-      <Input 
-        label="Email" 
-        error="Invalid email format" 
-        placeholder="Enter email" 
+      <Input
+        label="Email"
+        error="Invalid email format"
+        placeholder="Enter email"
       />
     );
     const input = screen.getByPlaceholderText('Enter email');
     const errorMessage = screen.getByText('Invalid email format');
     const label = screen.getByText('Email');
-    
+
     expect(input).toHaveClass('border-sunrise-orange');
     expect(errorMessage).toHaveClass('text-sunrise-orange');
     expect(label).toHaveClass('text-sunrise-orange');
@@ -50,18 +52,20 @@ describe('Input', () => {
   it('renders with left and right icons', () => {
     const leftIcon = <span data-testid="left-icon">@</span>;
     const rightIcon = <span data-testid="right-icon">✓</span>;
-    
+
     render(
-      <Input 
-        leftIcon={leftIcon} 
-        rightIcon={rightIcon} 
-        placeholder="With icons" 
+      <Input
+        leftIcon={leftIcon}
+        rightIcon={rightIcon}
+        placeholder="With icons"
       />
     );
-    
+
     expect(screen.getByTestId('left-icon')).toBeInTheDocument();
     expect(screen.getByTestId('right-icon')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('With icons')).toHaveClass('pl-10 pr-10');
+    expect(screen.getByPlaceholderText('With icons')).toHaveClass(
+      'pl-10 pr-10'
+    );
   });
 
   it('renders different sizes correctly', () => {
@@ -89,7 +93,7 @@ describe('Input', () => {
   it('calls onChange handler when text is entered', async () => {
     const handleChange = jest.fn();
     render(<Input onChange={handleChange} placeholder="Type here" />);
-    
+
     await userEvent.type(screen.getByPlaceholderText('Type here'), 'Hello');
     expect(handleChange).toHaveBeenCalledTimes(5); // Once for each character
   });
@@ -97,7 +101,7 @@ describe('Input', () => {
   it('does not call onChange when disabled', async () => {
     const handleChange = jest.fn();
     render(<Input disabled onChange={handleChange} placeholder="Disabled" />);
-    
+
     await userEvent.type(screen.getByPlaceholderText('Disabled'), 'Hello');
     expect(handleChange).not.toHaveBeenCalled();
   });

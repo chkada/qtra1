@@ -56,7 +56,10 @@ export const Modal = ({
   // Close modal when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
         onClose();
       }
     };
@@ -135,7 +138,10 @@ export const Modal = ({
             {(title || showCloseButton) && (
               <div className="flex items-center justify-between p-4 border-b border-gray-200">
                 {title && (
-                  <h2 id="modal-title" className="text-lg font-semibold text-gray-900">
+                  <h2
+                    id="modal-title"
+                    className="text-lg font-semibold text-gray-900"
+                  >
                     {title}
                   </h2>
                 )}

@@ -34,7 +34,7 @@ describe('Avatar', () => {
   it('applies size classes correctly', () => {
     const { rerender } = render(<Avatar alt="User" size="xs" />);
     expect(document.querySelector('.w-6')).toBeInTheDocument();
-    
+
     rerender(<Avatar alt="User" size="xl" />);
     expect(document.querySelector('.w-16')).toBeInTheDocument();
   });
@@ -42,13 +42,13 @@ describe('Avatar', () => {
   it('shows status indicator when status is provided', () => {
     const { rerender } = render(<Avatar alt="User" status="online" />);
     expect(document.querySelector('.bg-green-500')).toBeInTheDocument();
-    
+
     rerender(<Avatar alt="User" status="busy" />);
     expect(document.querySelector('.bg-sunrise-orange')).toBeInTheDocument();
-    
+
     rerender(<Avatar alt="User" status="offline" />);
     expect(document.querySelector('.bg-gray-400')).toBeInTheDocument();
-    
+
     rerender(<Avatar alt="User" status="away" />);
     expect(document.querySelector('.bg-yellow-400')).toBeInTheDocument();
   });
@@ -65,7 +65,9 @@ describe('Avatar', () => {
 
   it('sets correct aria-label for status', () => {
     render(<Avatar alt="User" status="online" />);
-    const statusIndicator = document.querySelector('[aria-label="Status: online"]');
+    const statusIndicator = document.querySelector(
+      '[aria-label="Status: online"]'
+    );
     expect(statusIndicator).toBeInTheDocument();
   });
 });

@@ -66,7 +66,7 @@ export interface SelectProps {
  * Select component for selecting from a list of options
  */
 export const Select = ({
-  options,
+  options = [],
   value,
   defaultValue,
   placeholder = 'Select an option',
@@ -81,7 +81,9 @@ export const Select = ({
   className = '',
 }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(value || defaultValue || '');
+  const [selectedValue, setSelectedValue] = useState(
+    value || defaultValue || ''
+  );
   const selectRef = useRef<HTMLDivElement>(null);
 
   // Update internal state when value prop changes
@@ -94,7 +96,10 @@ export const Select = ({
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+      if (
+        selectRef.current &&
+        !selectRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -121,7 +126,9 @@ export const Select = ({
   };
 
   // Get the selected option label
-  const selectedOption = options.find(option => option.value === selectedValue);
+  const selectedOption = options?.find(
+    (option) => option.value === selectedValue
+  );
   const displayText = selectedOption ? selectedOption.label : placeholder;
 
   // Size classes
@@ -186,7 +193,7 @@ export const Select = ({
               transition={{ duration: 0.2 }}
               role="listbox"
             >
-              {options.map((option) => (
+              {(options || []).map((option) => (
                 <li
                   key={option.value}
                   className={`
@@ -199,7 +206,10 @@ export const Select = ({
                 >
                   <span>{option.label}</span>
                   {option.value === selectedValue && (
-                    <Check size={size === 'sm' ? 16 : 20} className="text-aguirre-sky" />
+                    <Check
+                      size={size === 'sm' ? 16 : 20}
+                      className="text-aguirre-sky"
+                    />
                   )}
                 </li>
               ))}
@@ -209,7 +219,9 @@ export const Select = ({
       </div>
 
       {(helperText || error) && (
-        <p className={`mt-1 text-sm ${error ? 'text-sunrise-orange' : 'text-gray-500'}`}>
+        <p
+          className={`mt-1 text-sm ${error ? 'text-sunrise-orange' : 'text-gray-500'}`}
+        >
           {error || helperText}
         </p>
       )}

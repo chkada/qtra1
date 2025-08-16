@@ -1,18 +1,27 @@
 
-import prisma from '../prismaClient';
+import supabase from '../supabaseClient';
 
 export async function sendDevNotification({ bookingId, to, channel, body, payload }: { bookingId?: string, to?: string, channel: string, body: string, payload?: any }) {
-  // Persist notification record and log to console
-  const notif = await prisma.notification.create({
-    data: {
-      bookingId: bookingId || null,
+  // Persist notification record in Supabase
+  const { data, error } = await supabase
+    .from('notifications')
+    .insert({
+      booking_id: bookingId || null,
       to: to || null,
       channel,
       body,
       payload: payload || {},
-      status: 'sent'
-    }
-  });
+      status: 'sent',
+      created_at: new Date().toISOString(),
+      sent_at: new Date().toISOString()
+    })
+    .select();
+
+  if (error) {
+    console.error('Error creating notification:', error);
+    throw error;
+  }
+
   console.log('[DEV NOTIF] channel=', channel, 'to=', to, 'body=', body);
-  return notif;
+  return data[0];
 }

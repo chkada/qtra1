@@ -45,8 +45,8 @@ export const TeacherCard = ({
   const displayBio = showFullBio
     ? teacher.bio
     : teacher.bio.length > 120
-    ? `${teacher.bio.substring(0, 120)}...`
-    : teacher.bio;
+      ? `${teacher.bio.substring(0, 120)}...`
+      : teacher.bio;
 
   // Card animation variants
   const cardVariants = {
@@ -113,7 +113,10 @@ export const TeacherCard = ({
           {/* Subjects */}
           <div className="mb-3">
             <div className="flex items-center mb-2">
-              <BookOpen size={16} className="mr-2 text-primary-600 dark:text-primary-400" />
+              <BookOpen
+                size={16}
+                className="mr-2 text-primary-600 dark:text-primary-400"
+              />
               <span className="font-medium">Subjects</span>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -128,7 +131,10 @@ export const TeacherCard = ({
           {/* Languages */}
           <div className="mb-3">
             <div className="flex items-center mb-2">
-              <Globe size={16} className="mr-2 text-primary-600 dark:text-primary-400" />
+              <Globe
+                size={16}
+                className="mr-2 text-primary-600 dark:text-primary-400"
+              />
               <span className="font-medium">Languages</span>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -146,7 +152,10 @@ export const TeacherCard = ({
           {/* Availability */}
           <div className="mb-4">
             <div className="flex items-center mb-2">
-              <Clock size={16} className="mr-2 text-primary-600 dark:text-primary-400" />
+              <Clock
+                size={16}
+                className="mr-2 text-primary-600 dark:text-primary-400"
+              />
               <span className="font-medium">Availability</span>
             </div>
             <div className="text-sm text-gray-600 dark:text-gray-400">
@@ -156,7 +165,9 @@ export const TeacherCard = ({
           </div>
 
           {/* Bio */}
-          <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">{displayBio}</p>
+          <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
+            {displayBio}
+          </p>
         </div>
 
         {/* Footer with price and action buttons */}
@@ -166,11 +177,16 @@ export const TeacherCard = ({
               <span className="text-xl font-bold text-primary-600 dark:text-primary-400">
                 {teacher.currency} {teacher.hourlyRate}
               </span>
-              <span className="text-sm text-gray-600 dark:text-gray-400"> / hour</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">
+                {' '}
+                / hour
+              </span>
             </div>
             <div className="text-sm">
               <span className="font-medium">{teacher.experience} years</span>{' '}
-              <span className="text-gray-600 dark:text-gray-400">experience</span>
+              <span className="text-gray-600 dark:text-gray-400">
+                experience
+              </span>
             </div>
           </div>
 

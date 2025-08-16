@@ -48,7 +48,7 @@ describe('Checkbox', () => {
   it('calls onChange when clicked', () => {
     const handleChange = jest.fn();
     render(<Checkbox label="Test Checkbox" onChange={handleChange} />);
-    
+
     fireEvent.click(screen.getByText('Test Checkbox'));
     expect(handleChange).toHaveBeenCalledWith(true);
   });
@@ -56,7 +56,7 @@ describe('Checkbox', () => {
   it('does not call onChange when disabled', () => {
     const handleChange = jest.fn();
     render(<Checkbox label="Test Checkbox" onChange={handleChange} disabled />);
-    
+
     fireEvent.click(screen.getByText('Test Checkbox'));
     expect(handleChange).not.toHaveBeenCalled();
   });
@@ -75,21 +75,22 @@ describe('Checkbox', () => {
 
   it('applies additional className when provided', () => {
     render(<Checkbox className="custom-class" />);
-    const checkboxContainer = screen.getByRole('checkbox').parentElement?.parentElement?.parentElement;
+    const checkboxContainer =
+      screen.getByRole('checkbox').parentElement?.parentElement?.parentElement;
     expect(checkboxContainer).toHaveClass('custom-class');
   });
 
   it('toggles checked state when clicked', () => {
     render(<Checkbox label="Test Checkbox" />);
     const checkbox = screen.getByRole('checkbox');
-    
+
     // Initially unchecked
     expect(checkbox).not.toBeChecked();
-    
+
     // Click to check
     fireEvent.click(screen.getByText('Test Checkbox'));
     expect(checkbox).toBeChecked();
-    
+
     // Click to uncheck
     fireEvent.click(screen.getByText('Test Checkbox'));
     expect(checkbox).not.toBeChecked();

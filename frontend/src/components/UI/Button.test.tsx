@@ -48,13 +48,13 @@ describe('Button', () => {
   it('renders with left and right icons', () => {
     const leftIcon = <span data-testid="left-icon">←</span>;
     const rightIcon = <span data-testid="right-icon">→</span>;
-    
+
     render(
       <Button leftIcon={leftIcon} rightIcon={rightIcon}>
         With Icons
       </Button>
     );
-    
+
     expect(screen.getByTestId('left-icon')).toBeInTheDocument();
     expect(screen.getByTestId('right-icon')).toBeInTheDocument();
     expect(screen.getByText('With Icons')).toBeInTheDocument();
@@ -69,23 +69,31 @@ describe('Button', () => {
   it('calls onClick handler when clicked', async () => {
     const handleClick = jest.fn();
     render(<Button onClick={handleClick}>Click me</Button>);
-    
+
     await userEvent.click(screen.getByRole('button'));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
   it('does not call onClick when disabled', async () => {
     const handleClick = jest.fn();
-    render(<Button disabled onClick={handleClick}>Click me</Button>);
-    
+    render(
+      <Button disabled onClick={handleClick}>
+        Click me
+      </Button>
+    );
+
     await userEvent.click(screen.getByRole('button'));
     expect(handleClick).not.toHaveBeenCalled();
   });
 
   it('does not call onClick when loading', async () => {
     const handleClick = jest.fn();
-    render(<Button isLoading onClick={handleClick}>Click me</Button>);
-    
+    render(
+      <Button isLoading onClick={handleClick}>
+        Click me
+      </Button>
+    );
+
     await userEvent.click(screen.getByRole('button'));
     expect(handleClick).not.toHaveBeenCalled();
   });

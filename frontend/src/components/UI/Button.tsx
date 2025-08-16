@@ -1,7 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * Button variant
    */
@@ -42,30 +44,36 @@ export const Button = ({
   disabled,
   ...props
 }: ButtonProps) => {
+  const prefersReducedMotion = useReducedMotion();
   // Base classes for all buttons
-  const baseClasses = 'inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-aguirre-sky focus:ring-offset-2';
-  
+  const baseClasses =
+    'inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-aguirre-sky focus:ring-offset-2';
+
   // Size classes
   const sizeClasses = {
     sm: 'px-3 py-1.5 text-sm',
     md: 'px-4 py-2 text-base',
     lg: 'px-6 py-3 text-lg',
   };
-  
+
   // Variant classes
   const variantClasses = {
-    primary: 'bg-aguirre-sky text-white hover:bg-aguirre-sky/90 active:bg-aguirre-sky/80',
-    secondary: 'bg-golden-glow text-gray-900 hover:bg-golden-glow/90 active:bg-golden-glow/80',
-    outline: 'border border-aguirre-sky text-aguirre-sky hover:bg-aguirre-sky/10 active:bg-aguirre-sky/20',
+    primary:
+      'bg-aguirre-sky text-white hover:bg-aguirre-sky/90 active:bg-aguirre-sky/80',
+    secondary:
+      'bg-golden-glow text-gray-900 hover:bg-golden-glow/90 active:bg-golden-glow/80',
+    outline:
+      'border border-aguirre-sky text-aguirre-sky hover:bg-aguirre-sky/10 active:bg-aguirre-sky/20',
     text: 'text-aguirre-sky hover:bg-aguirre-sky/10 active:bg-aguirre-sky/20',
   };
-  
+
   // Disabled classes
   const disabledClasses = 'opacity-50 cursor-not-allowed';
-  
+
   // Loading classes
-  const loadingClasses = 'relative text-transparent transition-none hover:text-transparent';
-  
+  const loadingClasses =
+    'relative text-transparent transition-none hover:text-transparent';
+
   // Combine all classes
   const buttonClasses = [
     baseClasses,
@@ -74,22 +82,48 @@ export const Button = ({
     isLoading && loadingClasses,
     (disabled || isLoading) && disabledClasses,
     className,
-  ].filter(Boolean).join(' ');
-  
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   // Animation variants for the button
   const buttonVariants = {
-    hover: { scale: 1.02 },
-    tap: { scale: 0.98 },
+    hover: prefersReducedMotion ? {
+      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+      transition: { duration: 0.1 }
+    } : { 
+      scale: 1.02,
+      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+      transition: { duration: 0.2 }
+    },
+    tap: prefersReducedMotion ? {
+      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+      transition: { duration: 0.05 }
+    } : { 
+      scale: 0.98,
+      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+      transition: { duration: 0.1 }
+    },
+    initial: {
+      scale: 1,
+      boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)"
+    }
   };
-  
+
+  // Icon animation variants
+  const iconVariants = {
+    hover: prefersReducedMotion ? { x: 0 } : { x: 2 },
+    initial: { x: 0 }
+  };
+
   return (
     <motion.button
       className={buttonClasses}
       disabled={disabled || isLoading}
+      initial="initial"
       whileHover={!(disabled || isLoading) ? 'hover' : undefined}
       whileTap={!(disabled || isLoading) ? 'tap' : undefined}
       variants={buttonVariants}
-      transition={{ duration: 0.2 }}
       {...props}
     >
       {isLoading && (
@@ -116,9 +150,25 @@ export const Button = ({
           </svg>
         </div>
       )}
-      {leftIcon && <span className="mr-2">{leftIcon}</span>}
+      {leftIcon && (
+        <motion.span 
+          className="mr-2" 
+          variants={iconVariants}
+          transition={{ duration: 0.2 }}
+        >
+          {leftIcon}
+        </motion.span>
+      )}
       {children}
-      {rightIcon && <span className="ml-2">{rightIcon}</span>}
+      {rightIcon && (
+        <motion.span 
+          className="ml-2" 
+          variants={iconVariants}
+          transition={{ duration: 0.2 }}
+        >
+          {rightIcon}
+        </motion.span>
+      )}
     </motion.button>
   );
 };

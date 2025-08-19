@@ -4,9 +4,9 @@ import { useAuth } from '../../src/contexts/AuthContext';
 import Navbar from '../../components/UI/Navbar';
 import { Button } from '../../src/components/UI/Button';
 import { Input } from '../../src/components/UI/Input';
-import { Card } from '../../src/components/UI/Card';
+// import { Card } from '../../src/components/UI/Card';
 import supabase, { isValidConfig } from '../../src/utils/supabaseClient';
-import { mockTeachers } from '../../src/data/mockTeachers';
+import mockTeachers from '../../src/data/mockTeachers';
 import { 
   Send, 
   Paperclip, 
@@ -396,7 +396,7 @@ export default function ProxyMessagingPage() {
       <div className="container mx-auto px-4 py-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
-          <Card className="mb-4">
+          <div className="mb-4 bg-white rounded-lg shadow-md overflow-hidden">
             <div className="p-4 border-b">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
@@ -434,10 +434,10 @@ export default function ProxyMessagingPage() {
                 </div>
               </div>
             </div>
-          </Card>
+          </div>
 
           {/* Messages Container */}
-          <Card className="h-[600px] flex flex-col">
+          <div className="h-[600px] flex flex-col bg-white rounded-lg shadow-md overflow-hidden">
             {/* Messages Area */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {messages.map((message) => {
@@ -570,9 +570,11 @@ export default function ProxyMessagingPage() {
                 </Button>
               </form>
             </div>
-          </Card>
-        </div>
-      </div>
-    </div>
-  );
+-          </Card>
++          </div>
+         </div>
+       </div>
+     </div>
+   );
+}
 }

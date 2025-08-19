@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
+import { motion } from 'framer-motion';
+import { Mail, Lock, User } from 'lucide-react';
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -48,58 +50,58 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create your account
-          </h2>
+    <div className="min-h-screen flex items-center justify-center bg-aguirre-light-gray p-4">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-8"
+      >
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-gray-900">Create Your Account</h2>
+          <p className="mt-2 text-sm text-gray-600">
+            Join our community of learners and educators.
+          </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="email-address" className="sr-only">
-                Email address
-              </label>
+          <div className="rounded-md space-y-4">
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
               <input
                 id="email-address"
                 name="email"
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-aguirre-blue focus:border-transparent transition"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
               <input
                 id="password"
                 name="password"
                 type="password"
                 autoComplete="new-password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-aguirre-blue focus:border-transparent transition"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <div>
-              <label htmlFor="confirm-password" className="sr-only">
-                Confirm Password
-              </label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
               <input
                 id="confirm-password"
                 name="confirm-password"
                 type="password"
                 autoComplete="new-password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-aguirre-blue focus:border-transparent transition"
                 placeholder="Confirm Password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -107,32 +109,42 @@ export default function Register() {
             </div>
           </div>
 
-          {error && <div className="text-red-500 text-sm">{error}</div>}
-
-          {message && <div className="text-green-500 text-sm">{message}</div>}
-
-          <div className="flex items-center justify-between">
-            <div className="text-sm">
-              <Link
-                href="/login"
-                className="font-medium text-indigo-600 hover:text-indigo-500"
-              >
-                Already have an account? Sign in
-              </Link>
+          {error && (
+            <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md text-sm">
+              {error}
             </div>
-          </div>
+          )}
+
+          {message && (
+            <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-md text-sm">
+              {message}
+            </div>
+          )}
 
           <div>
-            <button
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-aguirre-blue hover:bg-aguirre-dark-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-aguirre-blue disabled:bg-gray-400 transition-all duration-300"
             >
-              {loading ? 'Creating account...' : 'Sign up'}
-            </button>
+              {loading ? 'Creating Account...' : 'Sign Up'}
+            </motion.button>
           </div>
         </form>
-      </div>
+        <div className="text-sm text-center text-gray-600">
+          <p>
+            Already have an account?{' '}
+            <Link
+              href="/login"
+              className="font-medium text-aguirre-blue hover:text-aguirre-dark-blue transition-colors"
+            >
+              Sign in
+            </Link>
+          </p>
+        </div>
+      </motion.div>
     </div>
   );
 }

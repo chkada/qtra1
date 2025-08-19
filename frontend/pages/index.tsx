@@ -6,14 +6,16 @@ import { Button } from '../src/components/UI/Button';
 import { Input } from '../src/components/UI/Input';
 import { Select } from '../src/components/UI/Select';
 import supabase, { isValidConfig } from '../src/utils/supabaseClient';
-import { mockTeachers } from '../src/data/mockTeachers';
+import mockTeachers, { type Teacher } from '../src/data/mockTeachers';
+import { motion } from 'framer-motion';
 import { Search, Star, Users, BookOpen, ArrowRight } from 'lucide-react';
+import Stats from '../src/components/UI/Stats';
 
 export default function HomePage() {
   const router = useRouter();
-  const [teachers, setTeachers] = useState([]);
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState('');
@@ -55,8 +57,8 @@ export default function HomePage() {
   }, []);
 
   // Get unique subjects and languages for filters
-  const subjects = [...new Set((teachers || []).flatMap(t => t.subjects || []))];
-  const languages = [...new Set((teachers || []).flatMap(t => t.languages || []))];
+  const subjects = Array.from(new Set((teachers || []).flatMap(t => t.subjects || [])));
+  const languages = Array.from(new Set((teachers || []).flatMap(t => t.languages || [])));
 
   // Filter teachers based on search and filters
   const filteredTeachers = (teachers || []).filter(teacher => {
@@ -82,177 +84,110 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-yellow-50">
+    <div className="min-h-screen bg-white">
       <Navbar />
       
       {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className="container mx-auto px-4 py-16">
-          <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-              Find Your Perfect
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-yellow-500"> Teacher</span>
-            </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Connect with qualified educators from around the world. Learn at your own pace with personalized one-on-one sessions.
-            </p>
-            
-            {/* Search Bar */}
-            <div className="bg-white rounded-2xl shadow-xl p-6 mb-8 max-w-4xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="md:col-span-2">
-                  <Input
-                    type="text"
-                    placeholder="Search for subjects, teachers, or topics..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full"
-                    icon={<Search className="w-5 h-5" />}
-                  />
-                </div>
-                <Select
-                  value={selectedSubject}
-                  onChange={setSelectedSubject}
-                  options={[
-                    { value: '', label: 'All Subjects' },
-                    ...subjects.map(subject => ({ value: subject, label: subject }))
-                  ]}
-                  placeholder="All Subjects"
-                  className="w-full"
-                />
-                <Select
-                  value={selectedLanguage}
-                  onChange={setSelectedLanguage}
-                  options={[
-                    { value: '', label: 'All Languages' },
-                    ...languages.map(language => ({ value: language, label: language }))
-                  ]}
-                  placeholder="All Languages"
-                  className="w-full"
-                />
-              </div>
-              <div className="mt-4 flex justify-center">
-                <Button onClick={handleSearch} className="px-8 py-3">
-                  <Search className="w-5 h-5 mr-2" />
-                  Search Teachers
-                </Button>
-              </div>
-            </div>
-            
-            {/* Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto">
-              <div className="text-center">
-                <div className="flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mx-auto mb-4">
-                  <Users className="w-8 h-8 text-blue-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900">500+</h3>
-                <p className="text-gray-600">Qualified Teachers</p>
-              </div>
-              <div className="text-center">
-                <div className="flex items-center justify-center w-16 h-16 bg-yellow-100 rounded-full mx-auto mb-4">
-                  <BookOpen className="w-8 h-8 text-yellow-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900">50+</h3>
-                <p className="text-gray-600">Subjects Available</p>
-              </div>
-              <div className="text-center">
-                <div className="flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mx-auto mb-4">
-                  <Star className="w-8 h-8 text-green-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900">4.9</h3>
-                <p className="text-gray-600">Average Rating</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Featured Teachers Section */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Featured Teachers</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Meet some of our top-rated educators who are ready to help you achieve your learning goals.
-          </p>
-        </div>
-
-        {loading ? (
-          <div className="flex justify-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-          </div>
-        ) : error ? (
-          <div className="text-red-500 text-center bg-red-50 p-6 rounded-lg">{error}</div>
-        ) : filteredTeachers.length === 0 ? (
-          <div className="text-center text-gray-500 bg-gray-50 p-12 rounded-lg">
-            <BookOpen className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">No teachers found</h3>
-            <p>Try adjusting your search criteria or browse all teachers.</p>
-            <Button 
-              onClick={() => router.push('/teachers')} 
-              variant="outline" 
-              className="mt-4"
-            >
-              Browse All Teachers
-            </Button>
-          </div>
-        ) : (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredTeachers.map((teacher) => (
-                <TeacherCard key={teacher.id} teacher={teacher} />
-              ))}
-            </div>
-            
-            {/* View All Teachers Button */}
-            <div className="text-center mt-12">
+      <div className="relative bg-aguirre-blue-100/20 overflow-hidden">
+        <div className="container mx-auto px-4 py-24 text-center">
+          <motion.h1 
+            className="text-5xl md:text-7xl font-bold text-gray-900 mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            Find Your Perfect
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-aguirre-blue-500 to-aguirre-sky-500"> Teacher</span>
+          </motion.h1>
+          <motion.p 
+            className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            Connect with qualified educators from around the world. Learn at your own pace with personalized one-on-one sessions.
+          </motion.p>
+          
+          {/* Search Bar */}
+          <motion.div 
+            className="max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <div className="relative">
+              <Input
+                type="text"
+                placeholder="Search for subjects, teachers, or topics..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full !py-4 !rounded-full"
+                leftIcon={<Search className="w-6 h-6" />}
+              />
               <Button 
-                onClick={() => router.push('/teachers')} 
+                onClick={handleSearch} 
+                className="absolute right-2 top-1/2 -translate-y-1/2 !rounded-full !px-6"
                 size="lg"
-                className="px-8 py-4"
               >
-                View All Teachers
-                <ArrowRight className="w-5 h-5 ml-2" />
+                Search
               </Button>
             </div>
-          </>
-        )}
+          </motion.div>
+        </div>
       </div>
 
-      {/* How It Works Section */}
-      <div className="bg-gray-50 py-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">How It Works</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Getting started with Qindil is simple. Follow these easy steps to begin your learning journey.
+      <Stats />
+
+      {/* Featured Teachers Section */}
+      <div className="bg-white dark:bg-gray-900 py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">Meet Our Top Educators</h2>
+            <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+              Discover our community of dedicated teachers, passionate about sharing their knowledge and helping you succeed.
             </p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="text-center">
-              <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-blue-600">1</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Find Your Teacher</h3>
-              <p className="text-gray-600">Browse our qualified teachers and find the perfect match for your learning needs.</p>
+          {loading ? (
+            <div className="flex justify-center mt-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-aguirre-blue-500"></div>
             </div>
-            
-            <div className="text-center">
-              <div className="bg-yellow-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-yellow-600">2</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Book a Session</h3>
-              <p className="text-gray-600">Schedule a convenient time for your one-on-one learning session.</p>
+          ) : error ? (
+            <div className="mt-12 text-center text-red-500 bg-red-50 dark:bg-red-900/20 p-8 rounded-xl shadow-md"> 
+              <p className="text-lg">{error}</p>
             </div>
-            
-            <div className="text-center">
-              <div className="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-green-600">3</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Start Learning</h3>
-              <p className="text-gray-600">Connect with your teacher and begin your personalized learning experience.</p>
+          ) : filteredTeachers.length === 0 ? (
+            <div className="mt-12 text-center text-gray-500 bg-gray-50 dark:bg-gray-800/50 p-12 rounded-xl shadow-lg">
+              <BookOpen className="w-16 h-16 text-gray-400 dark:text-gray-500 mx-auto mb-6" />
+              <h3 className="text-2xl font-semibold mb-3 text-gray-800 dark:text-white">No Teachers Found</h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-8">We couldn't find any teachers matching your criteria. Try a different search or browse all available teachers.</p>
+              <Button 
+                onClick={() => router.push('/teachers')} 
+                variant="primary"
+                size="lg"
+              >
+                Browse All Teachers
+              </Button>
             </div>
-          </div>
+          ) : (
+            <>
+              <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+                {filteredTeachers.map((teacher) => (
+                  <TeacherCard key={teacher.id} teacher={teacher} />
+                ))}
+              </div>
+              <div className="text-center mt-20">
+                <Button 
+                  onClick={() => router.push('/teachers')} 
+                  size="lg"
+                  variant="secondary"
+                  className="px-10 py-4 text-lg"
+                >
+                  Explore All Teachers
+                  <ArrowRight className="w-6 h-6 ml-3" />
+                </Button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

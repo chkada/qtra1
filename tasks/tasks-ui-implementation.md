@@ -69,7 +69,7 @@
   - [ ] 6.3 Add proper ARIA attributes to all components
   - [ ] 6.4 Ensure sufficient color contrast
   - [ ] 6.5 Test with screen readers
-  - [ ] 6.6 Set up language switching
+  - [ ] 6.6 Set up language switching 
 
 - [ ] 7.0 Connect Frontend with Backend API
   - [ ] 7.1 Create API client for backend services

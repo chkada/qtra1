@@ -5,7 +5,6 @@ import Navbar from '../../components/UI/Navbar';
 import { Button } from '../../src/components/UI/Button';
 import { Input } from '../../src/components/UI/Input';
 import { Select } from '../../src/components/UI/Select';
-import { Card } from '../../src/components/UI/Card';
 import supabase, { isValidConfig } from '../../src/utils/supabaseClient';
 import { 
   User, 
@@ -117,6 +116,9 @@ export default function ProfilePage() {
       return;
     }
 
+    // Capture non-null user fields to satisfy TypeScript within async function scope
+    const { id: currentUserId, email: currentUserEmail, user_metadata: currentUserMeta } = user;
+
     async function fetchProfile() {
       try {
         setLoading(true);
@@ -124,11 +126,11 @@ export default function ProfilePage() {
         if (!isValidConfig) {
           // Use mock data when Supabase is not configured
           const mockProfile: UserProfile = {
-            id: user.id,
-            email: user.email || 'user@example.com',
-            fullName: user.user_metadata?.full_name || 'John Doe',
+            id: currentUserId,
+            email: currentUserEmail || 'user@example.com',
+            fullName: currentUserMeta?.full_name || 'John Doe',
             phone: '+1234567890',
-            avatar: user.user_metadata?.avatar_url || '',
+            avatar: currentUserMeta?.avatar_url || '',
             dateOfBirth: '1990-01-01',
             location: 'New York, NY',
             timezone: 'America/New_York',
@@ -146,7 +148,7 @@ export default function ProfilePage() {
         const { data, error } = await supabase
           .from('user_profiles')
           .select('*')
-          .eq('id', user.id)
+          .eq('id', currentUserId)
           .single();
 
         if (error && error.code !== 'PGRST116') {
@@ -164,9 +166,9 @@ export default function ProfilePage() {
           // Create initial profile
           setProfile(prev => ({
             ...prev,
-            id: user.id,
-            email: user.email || '',
-            fullName: user.user_metadata?.full_name || ''
+            id: currentUserId,
+            email: currentUserEmail || '',
+            fullName: currentUserMeta?.full_name || ''
           }));
         }
       } catch (err: any) {
@@ -198,7 +200,6 @@ export default function ProfilePage() {
       const { error } = await supabase
         .from('user_profiles')
         .upsert({
-          id: user?.id,
           ...profile,
           updated_at: new Date().toISOString()
         });
@@ -381,8 +382,8 @@ export default function ProfilePage() {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Sidebar */}
             <div className="lg:col-span-1">
-              <Card className="p-4">
-                <nav className="space-y-2">
+              <div className="bg-white rounded-lg overflow-hidden border border-gray-200">
+                <nav className="space-y-2 p-4">
                   {tabs.map(tab => {
                     const Icon = tab.icon;
                     return (
@@ -401,13 +402,13 @@ export default function ProfilePage() {
                     );
                   })}
                 </nav>
-              </Card>
+              </div>
             </div>
 
             {/* Content */}
             <div className="lg:col-span-3">
               {activeTab === 'profile' && (
-                <Card className="p-6">
+                <div className="bg-white rounded-lg border border-gray-200 p-6">
                   <h2 className="text-xl font-bold text-gray-900 mb-6">Profile Information</h2>
                   
                   <form onSubmit={handleProfileUpdate} className="space-y-6">
@@ -506,13 +507,14 @@ export default function ProfilePage() {
                         </label>
                         <Select
                           value={profile.language}
-                          onChange={(e) => setProfile(prev => ({ ...prev, language: e.target.value }))}
-                        >
-                          <option value="en">English</option>
-                          <option value="ar">Arabic</option>
-                          <option value="fr">French</option>
-                          <option value="es">Spanish</option>
-                        </Select>
+                          onChange={(value: string) => setProfile(prev => ({ ...prev, language: value }))}
+                          options={[
+                            { value: 'en', label: 'English' },
+                            { value: 'ar', label: 'Arabic' },
+                            { value: 'fr', label: 'French' },
+                            { value: 'es', label: 'Spanish' }
+                          ]}
+                        />
                       </div>
                     </div>
 
@@ -580,11 +582,11 @@ export default function ProfilePage() {
                       )}
                     </Button>
                   </form>
-                </Card>
+                </div>
               )}
 
               {activeTab === 'security' && (
-                <Card className="p-6">
+                <div className="bg-white rounded-lg border border-gray-200 p-6">
                   <h2 className="text-xl font-bold text-gray-900 mb-6">Security Settings</h2>
                   
                   <form onSubmit={handlePasswordChange} className="space-y-6">
@@ -660,29 +662,29 @@ export default function ProfilePage() {
                       </Button>
                     </div>
                   </div>
-                </Card>
+                </div>
               )}
 
               {/* Other tabs would be implemented similarly */}
               {activeTab === 'notifications' && (
-                <Card className="p-6">
+                <div className="bg-white rounded-lg shadow-md overflow-hidden p-6">
                   <h2 className="text-xl font-bold text-gray-900 mb-6">Notification Preferences</h2>
                   <p className="text-gray-600">Notification settings will be implemented here.</p>
-                </Card>
+                </div>
               )}
 
               {activeTab === 'privacy' && (
-                <Card className="p-6">
+                <div className="bg-white rounded-lg shadow-md overflow-hidden p-6">
                   <h2 className="text-xl font-bold text-gray-900 mb-6">Privacy Settings</h2>
                   <p className="text-gray-600">Privacy controls will be implemented here.</p>
-                </Card>
+                </div>
               )}
 
               {activeTab === 'billing' && (
-                <Card className="p-6">
+                <div className="bg-white rounded-lg shadow-md overflow-hidden p-6">
                   <h2 className="text-xl font-bold text-gray-900 mb-6">Billing & Payments</h2>
                   <p className="text-gray-600">Billing management will be implemented here.</p>
-                </Card>
+                </div>
               )}
             </div>
           </div>

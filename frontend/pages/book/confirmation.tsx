@@ -3,9 +3,8 @@ import { useRouter } from 'next/router';
 import { useAuth } from '../../src/contexts/AuthContext';
 import Navbar from '../../components/UI/Navbar';
 import { Button } from '../../src/components/UI/Button';
-import { Card } from '../../src/components/UI/Card';
 import supabase, { isValidConfig } from '../../src/utils/supabaseClient';
-import { mockTeachers } from '../../src/data/mockTeachers';
+import mockTeachers from '../../src/data/mockTeachers';
 import { 
   CheckCircle, 
   Calendar, 
@@ -268,7 +267,7 @@ Thank you for choosing Qindil!
             {/* Booking Details */}
             <div className="lg:col-span-2 space-y-6">
               {/* Session Information */}
-              <Card className="p-6">
+              <div className="bg-white rounded-lg shadow-lg p-6">
                 <h2 className="text-xl font-bold text-gray-900 mb-4">Session Details</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="flex items-center">
@@ -310,10 +309,10 @@ Thank you for choosing Qindil!
                     <p className="text-gray-900">{booking.notes}</p>
                   </div>
                 )}
-              </Card>
+              </div>
 
               {/* Student Information */}
-              <Card className="p-6">
+              <div className="bg-white rounded-lg shadow-lg p-6">
                 <h2 className="text-xl font-bold text-gray-900 mb-4">Student Information</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="flex items-center">
@@ -340,10 +339,10 @@ Thank you for choosing Qindil!
                     </div>
                   </div>
                 </div>
-              </Card>
+              </div>
 
               {/* Next Steps */}
-              <Card className="p-6">
+              <div className="bg-white rounded-lg shadow-lg p-6">
                 <h2 className="text-xl font-bold text-gray-900 mb-4">What's Next?</h2>
                 <div className="space-y-4">
                   <div className="flex items-start">
@@ -376,13 +375,13 @@ Thank you for choosing Qindil!
                     </div>
                   </div>
                 </div>
-              </Card>
+              </div>
             </div>
 
             {/* Teacher Info & Actions */}
             <div className="lg:col-span-1 space-y-6">
               {/* Teacher Card */}
-              <Card className="p-6">
+              <div className="bg-white rounded-lg shadow-lg p-6">
                 <div className="text-center mb-4">
                   <img
                     src={teacher.avatar || 'https://via.placeholder.com/150'}
@@ -425,10 +424,10 @@ Thank you for choosing Qindil!
                     </div>
                   </div>
                 </div>
-              </Card>
+              </div>
 
               {/* Booking Summary */}
-              <Card className="p-6">
+              <div className="bg-white rounded-lg shadow-lg p-6">
                 <h3 className="text-lg font-bold text-gray-900 mb-4">Booking Summary</h3>
                 <div className="space-y-2">
                   <div className="flex justify-between">
@@ -454,7 +453,7 @@ Thank you for choosing Qindil!
                     </span>
                   </div>
                 </div>
-              </Card>
+              </div>
 
               {/* Action Buttons */}
               <div className="space-y-3">

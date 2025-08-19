@@ -4,10 +4,8 @@ import { useAuth } from '../../src/contexts/AuthContext';
 import Navbar from '../../components/UI/Navbar';
 import { Button } from '../../src/components/UI/Button';
 import { Input } from '../../src/components/UI/Input';
-import { Select } from '../../src/components/UI/Select';
-import { Card } from '../../src/components/UI/Card';
 import supabase, { isValidConfig } from '../../src/utils/supabaseClient';
-import { mockTeachers } from '../../src/data/mockTeachers';
+import mockTeachers from '../../src/data/mockTeachers';
 import { Calendar, Clock, User, Mail, Phone, CreditCard, ArrowLeft, Check } from 'lucide-react';
 
 interface Teacher {
@@ -280,7 +278,7 @@ export default function BookingFormPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Teacher Info Card */}
           <div className="lg:col-span-1">
-            <Card className="p-6 sticky top-8">
+            <div className="bg-white rounded-lg shadow-lg p-6 sticky top-8">
               <div className="text-center mb-6">
                 <img
                   src={teacher.avatar || 'https://via.placeholder.com/150'}
@@ -338,12 +336,12 @@ export default function BookingFormPage() {
                   </div>
                 </div>
               </div>
-            </Card>
+            </div>
           </div>
 
           {/* Booking Form */}
           <div className="lg:col-span-2">
-            <Card className="p-8">
+            <div className="bg-white rounded-lg shadow-lg p-8">
               <form onSubmit={handleSubmit} className="space-y-6">
                 {error && (
                   <div className="bg-red-50 border border-red-200 rounded-lg p-4">
@@ -373,16 +371,17 @@ export default function BookingFormPage() {
                       <Clock className="w-4 h-4 inline mr-2" />
                       Time
                     </label>
-                    <Select
+                    <select
                       value={formData.time}
                       onChange={(e) => handleInputChange('time', e.target.value)}
                       required
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="">Select time</option>
                       {timeSlots.map(time => (
                         <option key={time} value={time}>{time}</option>
                       ))}
-                    </Select>
+                    </select>
                   </div>
                 </div>
                 
@@ -391,16 +390,17 @@ export default function BookingFormPage() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Duration
                   </label>
-                  <Select
+                  <select
                     value={formData.duration.toString()}
                     onChange={(e) => handleInputChange('duration', parseInt(e.target.value))}
                     required
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="30">30 minutes</option>
                     <option value="60">1 hour</option>
                     <option value="90">1.5 hours</option>
                     <option value="120">2 hours</option>
-                  </Select>
+                  </select>
                 </div>
 
                 {/* Student Information */}
@@ -460,16 +460,17 @@ export default function BookingFormPage() {
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Subject
                     </label>
-                    <Select
+                    <select
                       value={formData.subject}
                       onChange={(e) => handleInputChange('subject', e.target.value)}
                       required
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="">Select a subject</option>
                       {teacher.subjects?.map(subject => (
                         <option key={subject} value={subject}>{subject}</option>
                       ))}
-                    </Select>
+                    </select>
                   </div>
                   
                   <div>
@@ -508,7 +509,7 @@ export default function BookingFormPage() {
                   </Button>
                 </div>
               </form>
-            </Card>
+            </div>
           </div>
         </div>
       </div>

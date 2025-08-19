@@ -3,7 +3,9 @@ import { useRouter } from 'next/router';
 import Navbar from '../../components/UI/Navbar';
 import { useAuth } from '../../src/contexts/AuthContext';
 import supabase, { isValidConfig } from '../../src/utils/supabaseClient';
-import { mockTeachers } from '../../src/data/mockTeachers';
+import mockTeachers from '../../src/data/mockTeachers';
+import { motion } from 'framer-motion';
+import { Star, MapPin, BookOpen, Clock, Calendar, ChevronLeft } from 'lucide-react';
 
 type Teacher = {
   id: string;
@@ -18,6 +20,29 @@ type Teacher = {
   bio: string;
   availability: Record<string, string[]>;
   location: string;
+};
+
+// Animation variants for Framer Motion
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 100,
+    },
+  },
 };
 
 export default function TeacherDetailPage() {
@@ -95,7 +120,6 @@ export default function TeacherDetailPage() {
         // Mock booking success when Supabase is not configured
         console.warn('Mock booking created - Supabase not configured');
         setBookingSuccess(true);
-        // Redirect to dashboard after a delay
         setTimeout(() => {
           router.push('/dashboard');
         }, 2000);
@@ -123,18 +147,12 @@ export default function TeacherDetailPage() {
       if (error) throw error;
 
       setBookingSuccess(true);
-      // Redirect to bookings page after a delay
       setTimeout(() => {
         router.push('/bookings');
       }, 2000);
     } catch (err: any) {
       console.error('Error creating booking:', err);
-      // Fallback to mock success on error
-      console.warn('Falling back to mock booking success');
-      setBookingSuccess(true);
-      setTimeout(() => {
-        router.push('/dashboard');
-      }, 2000);
+      setBookingError(err.message || 'Failed to create booking');
     }
   };
 
@@ -169,10 +187,10 @@ export default function TeacherDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-aguirre-light-gray">
         <Navbar />
         <div className="container mx-auto px-4 py-8 flex justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-aguirre-blue"></div>
         </div>
       </div>
     );
@@ -180,17 +198,18 @@ export default function TeacherDetailPage() {
 
   if (error || !teacher) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-aguirre-light-gray">
         <Navbar />
         <div className="container mx-auto px-4 py-8">
-          <div className="text-red-500 text-center">
+          <div className="text-red-500 text-center bg-red-100 p-4 rounded-lg">
             {error || 'Teacher not found'}
           </div>
           <div className="text-center mt-4">
             <button
               onClick={() => router.push('/teachers')}
-              className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition-colors"
+              className="px-4 py-2 bg-aguirre-blue text-white rounded-lg hover:bg-aguirre-dark-blue transition-colors flex items-center"
             >
+              <ChevronLeft className="h-5 w-5 mr-2" />
               Back to Teachers
             </button>
           </div>
@@ -200,176 +219,230 @@ export default function TeacherDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-aguirre-light-gray">
       <Navbar />
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          {/* Teacher Header */}
-          <div className="bg-indigo-600 text-white p-6 flex flex-col md:flex-row items-center justify-between">
-            <div className="flex items-center mb-4 md:mb-0">
-              <img
-                src={teacher.avatar || 'https://via.placeholder.com/150'}
-                alt={teacher.name}
-                className="h-24 w-24 rounded-full border-4 border-white mr-6"
-              />
-              <div>
-                <h1 className="text-3xl font-bold">{teacher.name}</h1>
-                <div className="flex items-center mt-1">
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <svg
-                        key={i}
-                        className={`h-5 w-5 ${i < Math.floor(teacher.rating) ? 'text-yellow-300' : 'text-gray-300'}`}
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
+      <div className="container mx-auto px-4 py-12">
+        <motion.div
+          className="max-w-4xl mx-auto"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {/* Back Button */}
+          <motion.div variants={itemVariants} className="mb-6">
+            <button
+              onClick={() => router.push('/teachers')}
+              className="text-aguirre-blue hover:text-aguirre-dark-blue font-medium transition-colors flex items-center"
+            >
+              <ChevronLeft className="h-5 w-5 mr-1" />
+              Back to all teachers
+            </button>
+          </motion.div>
+
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+            {/* Teacher Header */}
+            <motion.div
+              variants={itemVariants}
+              className="p-8 border-b border-gray-200"
+            >
+              <div className="flex flex-col sm:flex-row items-start">
+                <img
+                  src={teacher.avatar || 'https://via.placeholder.com/150'}
+                  alt={teacher.name}
+                  className="h-32 w-32 rounded-full border-4 border-white shadow-md mr-8 mb-4 sm:mb-0"
+                />
+                <div className="flex-grow">
+                  <h1 className="text-4xl font-bold text-gray-800">{teacher.name}</h1>
+                  <div className="flex items-center mt-2 text-gray-600">
+                    <div className="flex items-center">
+                      <Star className="h-5 w-5 text-yellow-400" />
+                      <span className="ml-1 font-semibold">{teacher.rating.toFixed(1)}</span>
+                    </div>
+                    <span className="mx-2">·</span>
+                    <div className="flex items-center">
+                      <MapPin className="h-5 w-5 text-gray-400" />
+                      <span className="ml-1">{teacher.location}</span>
+                    </div>
                   </div>
-                  <span className="ml-2">{teacher.rating.toFixed(1)}</span>
-                </div>
-                <p className="text-lg mt-1">${teacher.hourly_rate}/hour</p>
-              </div>
-            </div>
-            <div className="flex flex-col items-center md:items-end">
-              <div className="text-sm bg-white text-indigo-600 px-3 py-1 rounded-full font-semibold mb-2">
-                {teacher.location}
-              </div>
-              <div className="flex flex-wrap justify-center md:justify-end">
-                {teacher.subjects?.map((subject) => (
-                  <span
-                    key={subject}
-                    className="bg-indigo-700 text-white text-xs px-2 py-1 rounded m-1"
-                  >
-                    {subject}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Teacher Details */}
-          <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Left Column - Bio & Experience */}
-              <div className="md:col-span-2">
-                <h2 className="text-2xl font-bold mb-4">About Me</h2>
-                <p className="text-gray-700 mb-6">{teacher.bio}</p>
-
-                <h3 className="text-xl font-bold mb-3">Experience</h3>
-                <p className="text-gray-700 mb-6">{teacher.experience}</p>
-
-                <h3 className="text-xl font-bold mb-3">Education</h3>
-                <p className="text-gray-700 mb-6">{teacher.education}</p>
-
-                <h3 className="text-xl font-bold mb-3">Languages</h3>
-                <div className="flex flex-wrap">
-                  {teacher.languages?.map((language) => (
-                    <span
-                      key={language}
-                      className="bg-gray-200 text-gray-800 text-sm px-3 py-1 rounded-full mr-2 mb-2"
-                    >
-                      {language}
-                    </span>
-                  ))}
+                  <p className="text-2xl font-semibold text-aguirre-blue mt-3">${teacher.hourly_rate}/hour</p>
                 </div>
               </div>
+            </motion.div>
 
-              {/* Right Column - Booking */}
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <h2 className="text-2xl font-bold mb-4">Book a Session</h2>
+            {/* Teacher Details */}
+            <div className="p-8">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                {/* Left Column - Bio & Details */}
+                <motion.div
+                  variants={containerVariants}
+                  className="lg:col-span-2"
+                >
+                  <motion.div variants={itemVariants}>
+                    <h2 className="text-2xl font-bold text-gray-800 mb-4">About Me</h2>
+                    <p className="text-gray-700 leading-relaxed mb-8">{teacher.bio}</p>
+                  </motion.div>
 
-                {bookingSuccess ? (
-                  <div className="bg-green-100 text-green-800 p-4 rounded mb-4">
-                    Booking successful! Redirecting to your bookings...
-                  </div>
-                ) : (
-                  <>
-                    {bookingError && (
-                      <div className="bg-red-100 text-red-800 p-4 rounded mb-4">
-                        {bookingError}
+                  <motion.div variants={itemVariants}>
+                    <h3 className="text-xl font-bold text-gray-800 mb-4">Details</h3>
+                    <div className="space-y-4">
+                      <div className="flex items-start">
+                        <BookOpen className="h-6 w-6 text-aguirre-blue mr-4 mt-1" />
+                        <div>
+                          <h4 className="font-semibold">Subjects</h4>
+                          <div className="flex flex-wrap mt-1">
+                            {teacher.subjects?.map((subject) => (
+                              <span
+                                key={subject}
+                                className="bg-aguirre-sky text-aguirre-blue text-sm font-medium px-3 py-1 rounded-full mr-2 mb-2"
+                              >
+                                {subject}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
                       </div>
-                    )}
+                      <div className="flex items-start">
+                        <BookOpen className="h-6 w-6 text-aguirre-blue mr-4 mt-1" />
+                        <div>
+                          <h4 className="font-semibold">Languages</h4>
+                          <div className="flex flex-wrap mt-1">
+                            {teacher.languages?.map((language) => (
+                              <span
+                                key={language}
+                                className="bg-gray-100 text-gray-700 text-sm font-medium px-3 py-1 rounded-full mr-2 mb-2"
+                              >
+                                {language}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                        <BookOpen className="h-6 w-6 text-aguirre-blue mr-4 mt-1" />
+                        <div>
+                          <h4 className="font-semibold">Education</h4>
+                          <p className="text-gray-700">{teacher.education}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                        <Clock className="h-6 w-6 text-aguirre-blue mr-4 mt-1" />
+                        <div>
+                          <h4 className="font-semibold">Experience</h4>
+                          <p className="text-gray-700">{teacher.experience}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </motion.div>
 
-                    <div className="mb-4">
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Select Date
-                      </label>
-                      <select
-                        className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                        value={selectedDate}
-                        onChange={(e) => {
-                          setSelectedDate(e.target.value);
-                          setSelectedTime(''); // Reset time when date changes
+                {/* Right Column - Booking */}
+                <motion.div variants={itemVariants}>
+                  <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Book a Session</h2>
+
+                    {bookingSuccess ? (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="bg-green-100 text-green-800 p-4 rounded-lg text-center"
+                      >
+                        Booking successful! Redirecting...
+                      </motion.div>
+                    ) : (
+                      <form
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          handleBooking();
                         }}
                       >
-                        <option value="">Select a date</option>
-                        {getAvailableDates().map((date) => (
-                          <option key={date} value={date}>
-                            {new Date(date).toLocaleDateString('en-US', {
-                              weekday: 'long',
-                              month: 'long',
-                              day: 'numeric',
-                            })}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                        {bookingError && (
+                          <div className="bg-red-100 text-red-800 p-3 rounded-lg mb-4 text-sm">
+                            {bookingError}
+                          </div>
+                        )}
 
-                    <div className="mb-6">
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Select Time
-                      </label>
-                      <select
-                        className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                        value={selectedTime}
-                        onChange={(e) => setSelectedTime(e.target.value)}
-                        disabled={!selectedDate}
-                      >
-                        <option value="">Select a time</option>
-                        {getAvailableTimes().map((time) => (
-                          <option key={time} value={time}>
-                            {time}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                        <div className="mb-4">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <Calendar className="h-4 w-4 inline mr-2" />
+                            Select Date
+                          </label>
+                          <select
+                            className="w-full rounded-lg border-gray-300 shadow-sm focus:border-aguirre-blue focus:ring focus:ring-aguirre-blue focus:ring-opacity-50 transition"
+                            value={selectedDate}
+                            onChange={(e) => {
+                              setSelectedDate(e.target.value);
+                              setSelectedTime(''); // Reset time when date changes
+                            }}
+                            required
+                          >
+                            <option value="">Select a date</option>
+                            {getAvailableDates().map((date) => (
+                              <option key={date} value={date}>
+                                {new Date(date).toLocaleDateString('en-US', {
+                                  weekday: 'long',
+                                  month: 'long',
+                                  day: 'numeric',
+                                })}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
 
-                    <div className="mb-6">
-                      <div className="flex justify-between items-center text-sm text-gray-600 mb-2">
-                        <span>Hourly Rate:</span>
-                        <span>${teacher.hourly_rate}</span>
-                      </div>
-                      <div className="flex justify-between items-center text-sm text-gray-600 mb-2">
-                        <span>Duration:</span>
-                        <span>1 hour</span>
-                      </div>
-                      <div className="flex justify-between items-center font-bold text-lg">
-                        <span>Total:</span>
-                        <span>${teacher.hourly_rate}</span>
-                      </div>
-                    </div>
+                        <div className="mb-6">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <Clock className="h-4 w-4 inline mr-2" />
+                            Select Time
+                          </label>
+                          <select
+                            className="w-full rounded-lg border-gray-300 shadow-sm focus:border-aguirre-blue focus:ring focus:ring-aguirre-blue focus:ring-opacity-50 transition"
+                            value={selectedTime}
+                            onChange={(e) => setSelectedTime(e.target.value)}
+                            disabled={!selectedDate}
+                            required
+                          >
+                            <option value="">Select a time</option>
+                            {getAvailableTimes().map((time) => (
+                              <option key={time} value={time}>
+                                {time}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
 
-                    <button
-                      onClick={handleBooking}
-                      disabled={!selectedDate || !selectedTime}
-                      className="w-full py-3 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-                    >
-                      Book Now
-                    </button>
+                        <div className="border-t border-gray-200 pt-4 mb-6">
+                          <div className="flex justify-between items-center text-sm text-gray-600 mb-2">
+                            <span>Hourly Rate:</span>
+                            <span className="font-semibold">${teacher.hourly_rate}</span>
+                          </div>
+                          <div className="flex justify-between items-center text-lg font-bold text-gray-800">
+                            <span>Total:</span>
+                            <span>${teacher.hourly_rate}</span>
+                          </div>
+                        </div>
 
-                    {!user && (
-                      <p className="text-sm text-gray-500 mt-2 text-center">
-                        You'll need to sign in to complete your booking
-                      </p>
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          type="submit"
+                          disabled={!selectedDate || !selectedTime}
+                          className="w-full py-3 px-4 bg-aguirre-blue text-white font-semibold rounded-lg hover:bg-aguirre-dark-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-aguirre-blue disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300"
+                        >
+                          Book Now
+                        </motion.button>
+
+                        {!user && (
+                          <p className="text-xs text-gray-500 mt-3 text-center">
+                            You'll be asked to sign in to complete your booking.
+                          </p>
+                        )}
+                      </form>
                     )}
-                  </>
-                )}
+                  </div>
+                </motion.div>
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

@@ -29,7 +29,9 @@ export default function BookingsPage() {
   useEffect(() => {
     if (!user) return;
 
-    async function fetchBookings() {
+    const currentUserId = user.id; // capture non-null user id
+
+    async function fetchBookings(uid: string) {
       try {
         setLoading(true);
 
@@ -40,7 +42,7 @@ export default function BookingsPage() {
             {
               id: 'mock-booking-1',
               teacher_id: 'mock-teacher-1',
-              user_id: user.id,
+              user_id: uid,
               start_time: new Date(
                 Date.now() + 24 * 60 * 60 * 1000
               ).toISOString(),
@@ -57,7 +59,7 @@ export default function BookingsPage() {
             {
               id: 'mock-booking-2',
               teacher_id: 'mock-teacher-2',
-              user_id: user.id,
+              user_id: uid,
               start_time: new Date(
                 Date.now() - 24 * 60 * 60 * 1000
               ).toISOString(),
@@ -87,7 +89,7 @@ export default function BookingsPage() {
             teacher:teacher_id (name, avatar)
           `
           )
-          .eq('user_id', user.id)
+          .eq('user_id', uid)
           .order('start_time', { ascending: false });
 
         if (error) throw error;
@@ -99,7 +101,7 @@ export default function BookingsPage() {
           {
             id: 'mock-booking-1',
             teacher_id: 'mock-teacher-1',
-            user_id: user.id,
+            user_id: uid,
             start_time: new Date(
               Date.now() + 24 * 60 * 60 * 1000
             ).toISOString(),
@@ -118,7 +120,7 @@ export default function BookingsPage() {
       }
     }
 
-    fetchBookings();
+    fetchBookings(currentUserId);
   }, [user]);
 
   const formatDate = (dateString: string) => {

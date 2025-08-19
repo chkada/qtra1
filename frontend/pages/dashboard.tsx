@@ -1,212 +1,203 @@
-import React, { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import supabase from '../src/utils/supabaseClient';
 import { useRouter } from 'next/router';
-import { useAuth } from '../src/contexts/AuthContext';
 import Navbar from '../components/UI/Navbar';
-import supabase, { isValidConfig } from '../src/utils/supabaseClient';
 import ProtectedRoute from '../components/ProtectedRoute';
 
-type Booking = {
+// Define types for our data
+interface Booking {
   id: string;
-  teacher_id: string;
-  user_id: string;
+  user_id?: string;
+  teacher_id?: string;
   date: string;
   time: string;
   status: 'pending' | 'confirmed' | 'cancelled';
-  created_at: string;
-  user: {
-    full_name: string;
-    email: string;
-  };
-};
+  // Optional: Add user and teacher details if you join tables
+  user?: { full_name?: string; email?: string } | null;
+  teacher?: { name?: string; avatar?: string } | null;
+}
 
-type TeacherProfile = {
+interface TeacherProfile {
   id: string;
   user_id: string;
   name: string;
-  subjects: string[];
-  languages: string[];
-  hourly_rate: number;
   bio: string;
+  subjects: string[];
   availability: {
     days: string[];
     hours: string[];
   };
+  hourly_rate: number;
   avatar: string;
   rating: number;
-};
+  languages: string[];
+}
 
 export default function Dashboard() {
-  const { user } = useAuth();
-  const router = useRouter();
+  const [activeTab, setActiveTab] = useState('bookings');
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [teacherProfile, setTeacherProfile] = useState<TeacherProfile | null>(
     null
   );
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState('bookings');
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+
+  // Check if Supabase is configured
+  const isValidConfig =
+    process.env.NEXT_PUBLIC_SUPABASE_URL &&
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   useEffect(() => {
-    if (user) {
-      fetchTeacherProfile();
+    if (activeTab === 'bookings') {
       fetchBookings();
+    } else {
+      fetchTeacherProfile();
     }
-  }, [user]);
+  }, [activeTab]);
+
+  const fetchBookings = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      if (!isValidConfig) {
+        // Mock bookings when Supabase is not configured
+        console.warn('Mocking bookings - Supabase not configured');
+        setBookings([
+          {
+            id: '1',
+            user_id: 'user-1',
+            teacher_id: 'teacher-1',
+            date: '2023-10-27',
+            time: '10:00 AM',
+            status: 'confirmed',
+            teacher: { name: 'Dr. Evelyn Reed', avatar: '/teacher1.jpg' },
+          },
+          {
+            id: '2',
+            user_id: 'user-1',
+            teacher_id: 'teacher-2',
+            date: '2023-10-28',
+            time: '2:00 PM',
+            status: 'pending',
+            teacher: { name: 'Dr. Samuel Grant', avatar: '/teacher2.jpg' },
+          },
+        ]);
+        setLoading(false);
+        return;
+      }
+
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) {
+        router.push('/login');
+        return;
+      }
+
+      // Check if the user is a teacher to fetch student bookings
+      const { data: teacher, error: teacherError } = await supabase
+        .from('teachers')
+        .select('id')
+        .eq('user_id', user.id)
+        .single();
+
+      let query;
+      if (teacher) {
+        // Fetch bookings made by students for this teacher
+        query = supabase
+          .from('bookings')
+          .select(
+            `
+            id, user_id, teacher_id, date, time, status,
+            user:profiles(full_name, email)
+          `
+          )
+          .eq('teacher_id', teacher.id);
+      } else {
+        // Fetch bookings made by this user
+        query = supabase
+          .from('bookings')
+          .select(
+            `
+            id, user_id, teacher_id, date, time, status,
+            teacher:teachers(name, avatar)
+          `
+          )
+          .eq('user_id', user.id);
+      }
+
+      const { data, error } = await query;
+
+      if (error) throw error;
+      const normalized: Booking[] = (data as any[]).map((b) => ({
+        id: b.id,
+        user_id: b.user_id,
+        teacher_id: b.teacher_id,
+        date: b.date,
+        time: b.time,
+        status: b.status,
+        user: Array.isArray(b.user) ? b.user[0] ?? null : b.user ?? null,
+        teacher: Array.isArray(b.teacher) ? b.teacher[0] ?? null : b.teacher ?? null,
+      }));
+      setBookings(normalized);
+    } catch (error: any) {
+      console.error('Error fetching bookings:', error.message);
+      setError('Failed to fetch bookings. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchTeacherProfile = async () => {
+    setLoading(true);
+    setError(null);
     try {
       if (!isValidConfig) {
         // Mock teacher profile when Supabase is not configured
-        console.warn('Using mock teacher profile - Supabase not configured');
+        console.warn('Mocking teacher profile - Supabase not configured');
         setTeacherProfile({
-          id: 'mock-teacher-1',
-          user_id: user?.id || 'mock-user',
-          name: 'Mock Teacher',
-          subjects: ['Mathematics', 'Physics'],
-          languages: ['English', 'Spanish'],
-          hourly_rate: 25,
-          bio: 'This is a mock teacher profile for development.',
+          id: 'teacher-1',
+          user_id: 'user-1',
+          name: 'Dr. Evelyn Reed',
+          bio: 'Experienced educator specializing in Mathematics and Computer Science.',
+          subjects: ['Mathematics', 'Computer Science', 'Physics'],
           availability: {
-            days: ['Monday', 'Tuesday', 'Wednesday'],
-            hours: ['09:00', '10:00', '11:00'],
+            days: ['Monday', 'Wednesday', 'Friday'],
+            hours: ['09:00-12:00', '14:00-17:00'],
           },
-          avatar: '/api/placeholder/150/150',
-          rating: 4.8,
+          hourly_rate: 75,
+          avatar: '/teacher1.jpg',
+          rating: 4.9,
+          languages: ['English', 'French'],
         });
+        setLoading(false);
+        return;
+      }
+
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) {
+        router.push('/login');
         return;
       }
 
       const { data, error } = await supabase
         .from('teachers')
         .select('*')
-        .eq('user_id', user?.id)
+        .eq('user_id', user.id)
         .single();
 
       if (error && error.code !== 'PGRST116') {
+        // PGRST116: "The result contains 0 rows"
         throw error;
       }
 
-      if (data) {
-        setTeacherProfile(data);
-      }
+      setTeacherProfile(data as TeacherProfile);
     } catch (error: any) {
       console.error('Error fetching teacher profile:', error.message);
-      // Fallback to mock data on error
-      console.warn('Falling back to mock teacher profile');
-      setTeacherProfile({
-        id: 'mock-teacher-1',
-        user_id: user?.id || 'mock-user',
-        name: 'Mock Teacher',
-        subjects: ['Mathematics', 'Physics'],
-        languages: ['English', 'Spanish'],
-        hourly_rate: 25,
-        bio: 'This is a mock teacher profile for development.',
-        availability: {
-          days: ['Monday', 'Tuesday', 'Wednesday'],
-          hours: ['09:00', '10:00', '11:00'],
-        },
-        avatar: '/api/placeholder/150/150',
-        rating: 4.8,
-      });
-    }
-  };
-
-  const fetchBookings = async () => {
-    try {
-      setLoading(true);
-      setError('');
-
-      if (!isValidConfig) {
-        // Mock bookings when Supabase is not configured
-        console.warn('Using mock bookings - Supabase not configured');
-        const mockBookings = [
-          {
-            id: 'mock-booking-1',
-            teacher_id: 'mock-teacher-1',
-            user_id: user?.id || 'mock-user',
-            date: new Date().toISOString().split('T')[0],
-            time: '10:00',
-            status: 'pending' as const,
-            created_at: new Date().toISOString(),
-            user: {
-              full_name: 'Mock Student',
-              email: 'student@example.com',
-            },
-          },
-          {
-            id: 'mock-booking-2',
-            teacher_id: 'mock-teacher-1',
-            user_id: user?.id || 'mock-user',
-            date: new Date(Date.now() + 86400000).toISOString().split('T')[0],
-            time: '14:00',
-            status: 'confirmed' as const,
-            created_at: new Date().toISOString(),
-            user: {
-              full_name: 'Another Student',
-              email: 'student2@example.com',
-            },
-          },
-        ];
-        setBookings(mockBookings);
-        setLoading(false);
-        return;
-      }
-
-      let query;
-
-      if (teacherProfile) {
-        // If user is a teacher, get bookings for their teacher profile
-        query = supabase
-          .from('bookings')
-          .select(
-            `
-            *,
-            user:users(full_name, email)
-          `
-          )
-          .eq('teacher_id', teacherProfile.id)
-          .order('date', { ascending: false });
-      } else {
-        // Otherwise get bookings made by this user
-        query = supabase
-          .from('bookings')
-          .select(
-            `
-            *,
-            teacher:teachers(name, avatar)
-          `
-          )
-          .eq('user_id', user?.id)
-          .order('date', { ascending: false });
-      }
-
-      const { data, error } = await query;
-
-      if (error) throw error;
-
-      if (data) {
-        setBookings(data);
-      }
-    } catch (error: any) {
-      console.error('Error fetching bookings:', error.message);
-      // Fallback to mock data on error
-      console.warn('Falling back to mock bookings');
-      const mockBookings = [
-        {
-          id: 'mock-booking-1',
-          teacher_id: 'mock-teacher-1',
-          user_id: user?.id || 'mock-user',
-          date: new Date().toISOString().split('T')[0],
-          time: '10:00',
-          status: 'pending' as const,
-          created_at: new Date().toISOString(),
-          user: {
-            full_name: 'Mock Student',
-            email: 'student@example.com',
-          },
-        },
-      ];
-      setBookings(mockBookings);
+      setError('Failed to fetch teacher profile.');
     } finally {
       setLoading(false);
     }
@@ -509,7 +500,11 @@ export default function Dashboard() {
                               {[...Array(5)].map((_, i) => (
                                 <svg
                                   key={i}
-                                  className={`h-5 w-5 ${i < Math.floor(teacherProfile.rating) ? 'text-yellow-400' : 'text-gray-300'}`}
+                                  className={`h-5 w-5 ${
+                                    i < Math.floor(teacherProfile.rating)
+                                      ? 'text-yellow-400'
+                                      : 'text-gray-300'
+                                  }`}
                                   fill="currentColor"
                                   viewBox="0 0 20 20"
                                 >
